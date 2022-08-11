@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
 def main():
+    
     #Asking user input for numeric score
     score = int(input("Enter your score: "))
 
+    #checking if the score is in valid range (0 - 100)
     if score > 100:
         print("Score cannot be more than 100, YOU LIAR!!!")
     elif score < 0:
         print("You suck more than I think!!!")
     else:
+        #Grade conversion of numeric score
         if score >= 90:
             print("Excellect work. You got 'A'")
         elif score >= 80:
