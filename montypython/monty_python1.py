@@ -6,8 +6,11 @@ def main():
 
     while count <= 3:
         response = input("Your answer: ")
-        if response.lower() == 'brian':
+        if response.capitalize() == 'Brian':
             print("Correct!")
+            break
+        elif response.capitalize() == 'Shrubbery':
+            print("you gave the super secret answer!")
             break
         if count < 3:
             print("Sorry, try again!")
