@@ -107,6 +107,10 @@ while True:
             print('Can\'t get ' + move[1] + '!')
 
     ## If a player enters a room with a monster
+    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item'] and 'sword' in inventory:
+        print('You slayed the monster... YOU WIN!!!' )
+        break
+        
     if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
         print('A monster has got you... GAME OVER!')
         break
