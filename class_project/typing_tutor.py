@@ -2,8 +2,6 @@
 """ Python Project | Sam Maskey
     This project will provide your tying speed and accuracy """
 
-# TODO: Need condition for speed = 0
-# TODO: Need condition for no input entered
 
 import json
 import time
@@ -26,8 +24,8 @@ def get_api_string():
     url = "https://type.fit/api/quotes"
     print(f"Getting quote from '{url}'")
     time.sleep(2)
-    response = requests.request("GET", url).text
-    converted_response = json.loads(response)
+    response = requests.get(url)
+    converted_response = json.loads(response.text)
     i = random.randint(1, len(converted_response))
     string = converted_response[i]['text']
     return string
@@ -69,7 +67,7 @@ def main():
     text_displayed = "Default string"
 
     print("Are you ready to test you tying skills!!!")
-    option = input("Press 'y' to start & 'n' to exit > ")
+    option = input("Press 'y' to start or 'n' to exit > ")
 
     if option == 'y':
         while option == 'y':
@@ -121,7 +119,7 @@ def main():
             print("===========================")
 
             print("Do you want to try again?")
-            option = input("Press 'y' to start / 'n' to exit > ")
+            option = input("Press 'y' to start or 'n' to exit > ")
 
     if option == 'n':
         os.system('clear')
