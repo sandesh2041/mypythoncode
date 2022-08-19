@@ -2,6 +2,7 @@
 """ Python Project | Sam Maskey
     This project will provide your tying speed and accuracy """
 
+# Import Libraries
 import json
 import time
 import os
@@ -12,14 +13,17 @@ import numpy as np
 
 
 def get_file_string():
-    """Function extracting single random string from file"""
+    """Function extracting single random string from file""" 
     filename = 'strings_easy.txt'
     print(f"Getting string from '{filename}'")
-    time.sleep(1)
+    time.sleep(2)
     os.system('clear')
+    
+    # Reading content of the file
     with open(filename, encoding="utf-8") as file_open:
         file_read = file_open.read()
         strings = file_read.split('\n')
+        # Selecting random string
         string = random.choice(strings)
         return string
 
@@ -28,11 +32,16 @@ def get_api_string():
     """Function extracting single random quote from API"""
     url = "http://quotes.stormconsultancy.co.uk/quotes.json"
     print(f"Getting quote from '{url}'")
-    time.sleep(1)
+    time.sleep(2)
     os.system('clear')
+
+    # Making API call
     response = requests.get(url)
+
+    # Converting string to list
     converted_response = json.loads(response.text)
     i = random.randint(1, len(converted_response))
+    # Selecting random quote
     string = converted_response[i]['quote']
     return string
 
@@ -40,13 +49,17 @@ def get_api_string():
 def char_accuracy_calc(text_displayed, text_typed):
     """Function calculating character accuracy"""
     count = 0
+    # Looping through enumerate object of user text
     for index, character in enumerate(text_typed):
+
+        # Error handling if user keep on typing more than the actual string
         try:
             if text_displayed[index] == character:
                 count += 1
         except:
             pass
-
+    
+    # Accuracy calulation
     accuracy = round((count / len(text_displayed) * 100), 2)
     return accuracy
 
@@ -54,16 +67,22 @@ def char_accuracy_calc(text_displayed, text_typed):
 def word_accuracy_calc(text_displayed, text_typed):
     """Function calculating word accuracy"""
     count = 0
+
+    # Spliting string into list of words 
     words_displayed = text_displayed.split()
     words_typed = text_typed.split()
 
+    # Looping through enumerate object of list of words typed 
     for index, word in enumerate(words_typed):
+
+        # Error handling if user keep on typing more than the actual string
         try:
             if words_displayed[index] == word:
                 count += 1
         except:
             pass
 
+    # Accuracy calculation
     accuracy = round((count / len(words_displayed) * 100), 2)
     return accuracy
 
@@ -71,11 +90,14 @@ def word_accuracy_calc(text_displayed, text_typed):
 def chart(char_acc, word_acc, speed):
     """Function creating bar chart"""
     length = len(char_acc)
+    
     # Label Location
     xaxis = np.arange(length) + 1
+    
     # Width of the bar
     width = 0.35  # the width of the bars
 
+    # Plotting the bars in chart
     fig, axes = plt.subplots()
     rects1 = axes.bar(xaxis - width / 2, char_acc, width, label='Character Accuracy')
     rects2 = axes.bar(xaxis + width / 2, word_acc, width, label='Word Accuracy')
@@ -86,11 +108,14 @@ def chart(char_acc, word_acc, speed):
     axes.set_xticks(xaxis)
     axes.legend()
 
+    # Displaying value of each bar
     axes.bar_label(rects1, padding=3)
     axes.bar_label(rects2, padding=3)
 
+    # Creating second y-axis
     axes2 = axes.twinx()
     axes2.set_ylabel('Speed in wpm')
+    # Plotting line chart
     axes2.plot(xaxis, speed, 'o-', color='crimson', linewidth=2, label='Speed')
     axes2.legend(loc="upper left")
     for i in range(len(xaxis)):
@@ -98,6 +123,7 @@ def chart(char_acc, word_acc, speed):
 
     fig.tight_layout()
 
+    # Saving the chart in a file
     plt.savefig("/home/student/static/chart.png")
 
 
@@ -163,7 +189,8 @@ def main():
                 # Calling function to calculate accuracy
                 char_accuracy = char_accuracy_calc(text_displayed, text_typed)
                 word_accuracy = word_accuracy_calc(text_displayed, text_typed)
-
+                
+                # Creating list for chart
                 char_acc.insert(len(char_acc), char_accuracy)
                 word_acc.insert(len(word_acc), word_accuracy)
                 type_speed.insert(len(type_speed), speed)
@@ -180,9 +207,12 @@ def main():
 
                 print("Do you want to try again?")
                 option = input("Press 's' to start or 'e' to exit > ")
-
+        
+        # Condition to exit the game
         elif option.lower() == 'e':
+            # Calling function to create chart before exiting
             chart(char_acc, word_acc, type_speed)
+            os.system('clear')
             print("Goodbye!!!")
             break
 
